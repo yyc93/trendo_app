@@ -1,0 +1,46 @@
+<ion-header>
+	<ion-navbar>
+    	<ion-title>Signup</ion-title>
+  	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<form name="myForm">
+		<ion-list>
+			<ion-item>
+			    <ion-label floating>First Name</ion-label>
+			    <ion-input [(ngModel)]="fname" name="name" type="text"></ion-input>
+		  	</ion-item>
+
+		  	<ion-item>
+			    <ion-label floating>Last Name</ion-label>
+			    <ion-input [(ngModel)]="lname" name="name" type="text"></ion-input>
+		  	</ion-item>
+
+			<ion-item>
+			    <ion-label floating>Username</ion-label>
+			    <ion-input [(ngModel)]="uname" name="name" type="text"></ion-input>
+		  	</ion-item>
+
+		  	<ion-item>
+			    <ion-label floating>Email</ion-label>
+			    <ion-input [(ngModel)]="email" name="email" type="email"></ion-input>
+		  	</ion-item>
+
+		  	<ion-item>
+			    <ion-label floating>Password</ion-label>
+			    <ion-input [(ngModel)]="pass" name="pass" type="password"></ion-input>
+		  	</ion-item>
+		  	<ion-item>
+		  	<div [hidden]="show" class="fab-div" align="left">
+		  		<img src="{{base64Image}}">
+		  	</div>
+		  	<button ion-button block color="light" (click)="openCamera()">Upload Photo</button>
+		  	</ion-item>
+		</ion-list>
+
+		<button ion-button block color="light" (click)="signup(fname,lname,uname,email,pass)">Signup</button>
+		<div align="center">Already have an account? <a (click)="login()">Goto Signin</a></div>
+	</form>
+</ion-content>

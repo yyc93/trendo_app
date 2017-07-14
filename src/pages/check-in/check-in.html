@@ -1,0 +1,69 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Check In</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-card>
+		<ion-item>
+      		<ion-avatar item-left>
+        		<ion-icon name="at"></ion-icon>
+	      	</ion-avatar>
+	      	<h2>{{detail?.name}}</h2>
+	      	<p>{{detail?.address_components[0].long_name}},{{detail?.address_components[1].long_name}},{{detail?.address_components[2].long_name}},{{detail?.address_components[3].long_name}},{{detail?.address_components[4].long_name}}</p>
+    	</ion-item>
+
+    	<div class="map-container">
+			<sebm-google-map [zoom]="14" [disableDefaultUI]="false" [zoomControl]="true" [scrollwheel]="true" [mapDraggable]="true" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng">
+			  	
+			  	<sebm-google-map-marker (markerClick)="tryHaversine()" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng" [draggable]="true"></sebm-google-map-marker>
+			  	
+			</sebm-google-map>
+		</div>
+
+		<div [hidden]="pic" align="center" class="pic-container">
+			<h4>Picture:</h4>
+			<img src="{{base64Image}}">
+		</div>
+
+	    <ion-card-content>
+	      	<ion-row center>
+		        <ion-col width-50>
+		        	<div align="center">
+			          	<button (click)="takePicture()" ion-fab>
+			          		<ion-icon name="camera"></ion-icon>
+			          	</button>
+		          	</div>
+		        </ion-col>
+		        <ion-col width-50>
+		        	<div align="center">
+			          	<button (click)="recordVideo()" ion-fab>
+			          		<ion-icon name="videocam"></ion-icon>
+			          	</button>
+		          	</div>
+		        </ion-col>
+      		</ion-row>
+	      	<ion-row center>
+		        <ion-col width-100>
+		          	<ion-item>
+					    <ion-input [(ngModel)]="comment" type="text" placeholder="Comments"></ion-input>
+				  	</ion-item>
+		        </ion-col>
+	      	</ion-row>
+	      	<ion-row center>
+		        <ion-col width-100>
+		          	<ion-item>
+					    <img src="{{toUpload.fileUrl}}">
+				  	</ion-item>
+		        </ion-col>
+	      	</ion-row>
+
+	      	
+	    </ion-card-content>
+  	</ion-card>
+  	<button ion-button block (click)="makeCheckin(comment, userProvider.checkMyPost())">POST</button>
+</ion-content>

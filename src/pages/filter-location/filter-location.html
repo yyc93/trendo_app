@@ -1,0 +1,65 @@
+<ion-header>
+	<ion-navbar hideBackButton>
+		<ion-grid>
+			<ion-row center>
+				<ion-col width-10 (click)="close()">
+					<ion-icon name="close"></ion-icon>
+				</ion-col>
+				<ion-col width-80>
+					<div align="center"><ion-title>Feed Filters</ion-title></div>
+				</ion-col>
+				<ion-col width-10>
+					<ion-icon name="checkmark"></ion-icon>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+    </ion-navbar>
+  	<!-- SUB HEADER -->
+	<ion-toolbar>
+	    <div class="subheader">
+	      <ion-grid>
+	        <ion-row center>
+	          <ion-col width-50 (click)="goto('1')">
+	            <div [ngClass]="{active:id == '1'}" align="center">LOCATION</div>
+	          </ion-col>
+	          <ion-col width-50 (click)="goto('2')">
+	            <div [ngClass]="{active:id == '2'}" align="center">CATEGORY</div>
+	          </ion-col>
+	        </ion-row>
+	      </ion-grid>
+	    </div>
+  	</ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-item>
+	    	<ion-label>Nightlife (Clubs and bars)</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+
+	  	<ion-item>
+	    	<ion-label>Restaurants</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+
+	  	<ion-item>
+	    	<ion-label>Coffee and hookah lounge</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+
+	  	<ion-item>
+	    	<ion-label>Sporting Events</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+
+	  	<ion-item>
+	    	<ion-label>Outdoor Activities</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+
+	  	<ion-item>
+	    	<ion-label>Miscellaneous</ion-label>
+	    	<ion-checkbox></ion-checkbox >
+	  	</ion-item>
+</ion-content>

@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar>
+	<ion-item>
+		<ion-input type="text" placeholder="Keyword Search"></ion-input>
+    </ion-item>
+  </ion-navbar>
+  <!-- SUB HEADER -->
+  <ion-toolbar>
+    <div class="subheader">
+      <ion-grid>
+        <ion-row center>
+          <ion-col width-50 (click)="goto('1')">
+            <div [ngClass]="{active:id == '1'}" align="center">PLACES</div>
+          </ion-col>
+          <ion-col width-50 (click)="goto('2')">
+            <div [ngClass]="{active:id == '2'}" align="center">PEOPLE</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>John</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>Doe</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>Alex</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon class="white" name="menu"></ion-icon>
+    </button>
+    <ion-title> {{data?.businessName}}</ion-title>
+    <ion-buttons end>
+      <!-- <button ion-button>
+        <ion-icon class="white" name="help"></ion-icon>
+      </button> -->
+      <button ion-button>
+        <ion-icon class="white" name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	
+	<ion-card>
+		<ion-card-content>
+  		<ion-grid>
+  			<ion-row>
+    			<ion-col>
+    				<img src="{{data?.logoImageURI}}">
+    				<ion-icon name="call"></ion-icon>
+    			</ion-col>
+    			<ion-col width-80>
+    				<b>Address:</b> {{data?.businessAddress}}<br>
+    				<b>Phone:</b> {{data?.phone}}<br>
+    				<b>Hours:</b> {{data?.businessDays}} 
+    				<ion-icon name="heart-outline"></ion-icon>
+    			</ion-col>
+    		</ion-row>
+  		</ion-grid>
+		</ion-card-content>
+	</ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Description:
+    </ion-card-header>
+    <ion-card-content>
+      {{data?.businessDescription}}
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <video width="320" height="240" controls>
+      <source src="{{video}}" type="video/mp4">
+    </video>
+  </ion-card>
+
+	<ion-card *ngFor="let checkin of checkin">
+
+    <ion-item>
+      <ion-avatar item-left>
+        <ion-icon name="restaurant"></ion-icon>
+      </ion-avatar>
+      <h2>{{checkin?.placeName}}</h2>
+      <p>{{checkin?.address}}</p>
+      <ion-avatar item-right>
+        <ion-icon name="navigate"></ion-icon>
+      </ion-avatar>
+    </ion-item>
+
+     <video controls width="320" height="240" width="" *ngIf="checkin.fileType == 'video' && checkin.fileUrl != undefined">
+        <source src="{{checkin.fileUrl}}" type="video/mp4" />
+      </video>
+      <img *ngIf="checkin.fileType == 'image' && checkin.fileUrl != undefined" src="{{checkin.fileUrl}}">
+      <img *ngIf="checkin.fileType == 'image' && checkin.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <p>{{checkin?.comment}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col (click)="gotoUser(checkin.user_id)">
+          <ion-avatar item-left>
+            <ion-icon name="contact"></ion-icon>
+            {{checkin?._userID.username}}
+          </ion-avatar>
+        </ion-col>
+        <ion-col style="text-align:right;">
+              <ion-icon name="list-box"></ion-icon>
+              {{checkin?.dateTime | timeAgo}}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <textarea style="width:100%; resize:none" rows="4"></textarea>
+      <button ion-button block>Give Feedback</button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-row center>
+      <ion-col width-50>
+        <div class="footer-icon" align="center">
+          <ion-icon name="search"></ion-icon>
+        </div>
+      </ion-col>
+      <ion-col width-50>
+        <div class="footer-icon" align="center">
+          <ion-icon name="funnel"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-footer>

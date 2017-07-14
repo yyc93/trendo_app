@@ -1,0 +1,135 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon class="white" name="menu"></ion-icon>
+    </button>
+    <ion-title>Trendo</ion-title>
+    <ion-buttons end>
+      <button (click)="checkIn()" ion-button>
+        <ion-icon class="white" name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+      </ion-refresher-content>
+  </ion-refresher>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row center>
+        <ion-col (click)="goto('1')">
+          <div align="center">FANS</div>
+        </ion-col>
+        <ion-col>
+          <div style="color:red;" align="center">TREND</div>
+        </ion-col>
+        <ion-col (click)="goto('3')">
+          <div align="center">NOTIFICATIONS</div>
+        </ion-col>
+        <ion-col (click)="gotoLocation()">
+          <div align="center"><ion-icon name="navigate" color="danger"></ion-icon></div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <ion-card *ngFor="let data of data">
+    <div *ngIf="data.type == 'user'">
+      <ion-item (click)="gotoDetails(data._businessId)">
+        <ion-avatar item-left>
+          <ion-icon name="restaurant"></ion-icon>
+        </ion-avatar>
+        <h2>{{data.placeName}}</h2>
+        <ion-avatar item-right>
+          <ion-icon name="navigate"></ion-icon>
+        </ion-avatar>
+      </ion-item>
+
+      <video controls width="320" height="240" width="" *ngIf="data.fileType == 'video' && data.fileUrl != undefined">
+        <source src="{{data.fileUrl}}" type="video/mp4" />
+      </video>
+      <img *ngIf="data.fileType == 'image' && data.fileUrl != undefined" src="{{data.fileUrl}}">
+      <img *ngIf="data.fileType == 'image' && data.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <p>{{data.comment}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col *ngIf="data.checkinType != 'private'" (click)="gotoUser(data.user_id)">
+            <ion-avatar item-left>
+              <ion-icon name="contact"></ion-icon>
+              {{data?._userID?.username}}
+            </ion-avatar>
+          </ion-col>
+          <ion-col style="text-align:right;">
+                <ion-icon name="list-box"></ion-icon>
+                {{data?.dateTime | timeAgo}}
+                <button *ngIf="data.user_id == userProvider.getCurrentUser()._id" (click)="deletePost(data._id)">Delete</button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </div>
+
+    <div *ngIf="data.type == 'business'">
+      <div style="width:100%; background:grey" align="center">
+        <ion-badge color="danger">SPONSORED</ion-badge>
+      </div>
+      <ion-item (click)="gotoDetails(data._id)">
+        <h2>{{data.businessName}}</h2>
+        <p>{{data.businessAddress}}</p>
+        <small>{{data.businessPhone}}</small>
+      </ion-item>
+
+      <img src="http://lorempixel.com/400/200/food/">
+
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <p>{{data.businessDescription}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <!-- <ion-avatar item-left>
+              <ion-icon name="contact"></ion-icon>
+              {{data.firstName}}
+            </ion-avatar> -->
+          </ion-col>
+          <ion-col style="text-align:right;">
+            {{data?.email}}
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+      <div style="width:100%; height:15px; background:grey" align="center">
+        <!-- <ion-badge color="danger">SPONSORED</ion-badge> -->
+      </div>
+    </div>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-row center>
+      <ion-col width-50>
+        <div class="footer-icon" align="center" (click)="gotoSearch('1')">
+          <ion-icon name="search"></ion-icon>
+        </div>
+      </ion-col>
+      <ion-col width-50>
+        <div class="footer-icon" align="center" (click)="goto('4')">
+          <ion-icon name="funnel"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-footer>

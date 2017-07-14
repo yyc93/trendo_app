@@ -1,0 +1,51 @@
+<ion-menu [content]="content">
+  <ion-header class="menu-header">
+    <ion-toolbar class="menu-header">
+      <div align="right">
+        <button class="close-header" ion-button clear menuClose>
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+      <ion-grid *ngIf="userProvider.getCurrentUser() != null">
+        <ion-row center>
+          <ion-col offset-10 width-25>
+            <img class="profile-img" src="{{userProvider.getCurrentUser().avatar}}">
+          </ion-col>
+          <ion-col width-50>
+            <h3>{{userProvider.getCurrentUser().firstname}}</h3>
+            <p>{{userProvider.getCurrentUser().email}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row center>
+          <ion-col width-50>
+            <div class="header-detail" align="left">Detail</div>
+          </ion-col>
+          <ion-col width-50>
+            <div class="header-detail" align="right">
+              <ion-icon name="arrow-dropdown"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button (click)="openPage(p)" menuClose ion-item *ngFor="let p of pages">
+        <ion-icon name='{{p.icon}}' class="large-icon"></ion-icon>
+        <span class="menu">{{p.title}}</span>
+      </button>
+    </ion-list>
+  </ion-content>
+  <ion-footer *ngIf="userProvider.getCurrentUser() != null">
+    <ion-toolbar>
+      <button ion-button block menuClose color="light" (click)="signout()">Signout</button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+<ion-nav [root]="rootPage" #content></ion-nav>

@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-navbar>
+	<ion-item>
+		<ion-input type="text" placeholder="Keyword Search"></ion-input>
+    </ion-item>
+  </ion-navbar>
+  <ion-toolbar>
+      <ion-grid>
+        <ion-row center>
+          <ion-col width-50 (click)="show=1">
+            <div [ngClass]="{active:id == '1'}" align="center">PLACES</div>
+          </ion-col>
+          <ion-col width-50 (click)="show=2">
+            <div [ngClass]="{active:id == '2'}" align="center">PEOPLE</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list *ngIf="show == 2">
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/food">
+	    	</ion-avatar>
+	    	<h2>Cafe</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/food">
+	    	</ion-avatar>
+	    	<h2>Bar</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/food">
+	    	</ion-avatar>
+	    	<h2>Hill Station</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	</ion-list>
+
+	<ion-list *ngIf="show == 1">
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>John</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>Doe</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	  	<ion-item>
+	    	<ion-avatar item-left>
+	      		<img src="http://lorempixel.com/200/200/people">
+	    	</ion-avatar>
+	    	<h2>Alex</h2>
+	    	<p>Ugh. As if.</p>
+	  	</ion-item>
+	</ion-list>
+</ion-content>

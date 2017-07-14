@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon class="white" name="menu"></ion-icon>
+    </button>
+    <ion-title>Trendo(User)</ion-title>
+    <ion-buttons end>
+      <!-- <button ion-button>
+        <ion-icon class="white" name="help"></ion-icon>
+      </button> -->
+      <button ion-button>
+        <ion-icon class="white" name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-card>
+		<ion-card-content>
+    		<ion-grid>
+    			<ion-row center>
+	    			<ion-col width-25>
+	    				<img src="assets/img/spy.ico">
+	    			</ion-col>
+	    			<ion-col width-50>
+	    				<h3>
+                {{user?.username}}<br>
+                ( {{user?.firstname}} {{user?.lastname}} )
+              </h3>
+            </ion-col>
+	    			<ion-col width-25>
+	    				<div style="margin-top:5px;font-size: 2.0rem;" align="center">
+	    					<h4>{{userConnectionsLength}}</h4>
+	    					<ion-icon *ngIf="friendBtn" (click)="becomeFriend()" name="heart-outline"></ion-icon>
+	    				</div>
+	    			</ion-col>
+	    		</ion-row>
+    		</ion-grid>
+  		</ion-card-content>
+  	</ion-card>
+
+  <ion-card *ngFor="let data of user?.userCheckins">
+    <ion-item (click)="gotoDetails(data._businessId)">
+      <ion-avatar item-left>
+        <ion-icon name="flower"></ion-icon>
+      </ion-avatar>
+      <h2>{{data.placeName}}</h2>
+      <p>{{data.address}}</p>
+      <ion-avatar item-right>
+        <ion-icon name="navigate"></ion-icon>
+      </ion-avatar>
+    </ion-item>
+
+    <img *ngIf="data.fileUrl != undefined" src="{{data.fileUrl}}">
+      <img *ngIf="data.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <p>{{data.comment}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-avatar item-left>
+            <ion-icon name="contact"></ion-icon>
+            
+          </ion-avatar>
+        </ion-col>
+        <ion-col style="text-align:right;">
+          <ion-icon name="list-box"></ion-icon>
+          {{data.dateTime | timeAgo}}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-row center>
+      <ion-col width-50>
+        <div class="footer-icon" align="center">
+          <ion-icon name="search" color="Light"></ion-icon>
+        </div>
+      </ion-col>
+      <ion-col width-50>
+        <div class="footer-icon" align="center">
+          <ion-icon name="funnel" color="Light"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-footer>
+

@@ -1,0 +1,73 @@
+<ion-header>
+	<ion-navbar>
+	    <button ion-button menuToggle>
+      		<ion-icon class="white" name="menu"></ion-icon>
+	    </button>
+	    <ion-title>My CheckIns</ion-title>
+	    <ion-buttons end>
+	      	<button (click)="checkIn()" ion-button>
+	        	<ion-icon class="white" name="camera"></ion-icon>
+	      	</button>
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content 
+	      pullingIcon="arrow-dropdown"
+	      pullingText="Pull to refresh"
+	      refreshingSpinner="circles"
+	      refreshingText="Refreshing...">
+      	</ion-refresher-content>
+  	</ion-refresher>
+
+  	<div *ngIf="empty">
+    	<ion-card *ngFor="let data of data">
+
+	      	<ion-item (click)="gotoDetails(data._businessId)">
+		        <ion-avatar item-left>
+		          	<ion-icon name="restaurant"></ion-icon>
+		        </ion-avatar>
+		        <h2>{{data.placeName}}</h2>
+		        <ion-avatar item-right>
+		          	<ion-icon name="navigate"></ion-icon>
+		        </ion-avatar>
+	      	</ion-item>
+
+      		<video controls width="320" height="240" width="" *ngIf="data.fileType == 'video' && data.fileUrl != undefined">
+		        <source src="{{data.fileUrl}}" type="video/mp4" />
+		    </video>
+		    <img *ngIf="data.fileType == 'image' && data.fileUrl != undefined" src="{{data.fileUrl}}">
+		    <img *ngIf="data.fileType == 'image' && data.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+
+	      	<ion-card-content>
+		        <ion-row>
+		          	<ion-col>
+		            	<p>{{data.comment}}</p>
+		          	</ion-col>
+		        </ion-row>
+		        <ion-row>
+		          	<ion-col (click)="gotoUser(data.user_id)">
+			            <ion-avatar item-left>
+			              	<ion-icon name="contact"></ion-icon>
+			              	{{data?._userID?.username}}
+			            </ion-avatar>
+		          	</ion-col>
+		          	<ion-col style="text-align:right;">
+		                <ion-icon name="list-box"></ion-icon>
+		                {{data?.dateTime | timeAgo}}
+		          	</ion-col>
+		        </ion-row>
+	      	</ion-card-content>
+    	</ion-card>
+  	</div>
+
+  	<div *ngIf="!empty" class="card-background-page">
+	    <ion-card>
+	      	<img src="assets/img/nodata.jpg"/>
+	      	<div class="card-subtitle">You dont have any Checkins from last 24hrs.</div>
+	    </ion-card>
+  	</div>
+</ion-content>

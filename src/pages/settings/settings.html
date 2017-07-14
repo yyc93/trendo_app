@@ -1,0 +1,32 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+	      	<ion-icon class="white" name="menu"></ion-icon>
+	    </button>
+    	<ion-title>Settings</ion-title>
+  	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+	  	<ion-list-header>
+	    	Preferences
+	  	</ion-list-header>
+	  	<ion-item>
+		  <ion-label>Auto-Friending</ion-label>
+		  <ion-toggle (ionChange)="update(auto)" [(ngModel)]="auto" checked="{{checked}}"></ion-toggle>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Auto-Save Picture</ion-label>
+		  <ion-toggle (ionChange)="updatePic(savePic)" [(ngModel)]="savePic" checked="{{savePic}}"></ion-toggle>
+		</ion-item>
+		<ion-item>
+		  <ion-label>My Posts (Private/Public)</ion-label>
+		  <ion-toggle (ionChange)="updateMyPost(myPost)" [(ngModel)]="myPost" checked="{{myPost}}"></ion-toggle>
+		</ion-item>
+		<ion-item>
+			<button ion-button block (click)="goto('MyCheckIns')">My Checkins</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

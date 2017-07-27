@@ -77,7 +77,8 @@ export class PlaceDetail {
         this.video = null;
         console.log(ext);
         console.log(this.data.logoImage[i])
-        this.video = 'https://trendo-admin.herokuapp.com/server/uploads/'+this.data.logoImage[i];
+        // this.video = 'https://trendo-admin.herokuapp.com/server/uploads/'+this.data.logoImage[i];
+        this.video = 'http://169.48.179.4/server/uploads/'+this.data.logoImage[i];
         console.log(this.video)
         return;
       }

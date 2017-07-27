@@ -6,7 +6,8 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class Checkin {
 
-	private baseUrl = 'https://trendo-admin.herokuapp.com/api/';
+	//private baseUrl = 'https://trendo-admin.herokuapp.com/api/';
+	private baseUrl = 'http://169.48.179.4/api/';
 
   constructor(public http: Http) {
     console.log('Hello Checkin Provider');

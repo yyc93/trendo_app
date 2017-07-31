@@ -61,6 +61,7 @@
         <variable name="APP_ID" value="1318290321592685" />
         <variable name="APP_NAME" value="Trendo" />
     </plugin>
+    <plugin name="cordova-plugin-file" spec="^4.0.0" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.6.3" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
     <plugin name="cordova-plugin-media-capture" spec="^1.4.3" />

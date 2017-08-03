@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 
 import { CheckIn } from '../check-in/check-in';
+import { PlaceDetail } from '../place-detail/place-detail';
 
 import { Checkin } from '../../providers/checkin';
 import { User } from '../../providers/user';
@@ -68,4 +69,8 @@ export class MyCheckIns {
     this.navCtrl.push(CheckIn);
   }
 
+	gotoDetails(placeId){
+		console.log(placeId)
+		this.navCtrl.push(PlaceDetail, {id: placeId});
+	}
 }

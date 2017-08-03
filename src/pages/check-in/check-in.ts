@@ -12,28 +12,36 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ion
 
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
+enum PostStyle {
+  PS_TEXT = 0,
+  PS_PHOTO = 1,
+  PS_VIDEO = 2
+}
+
 @Component({
   selector: 'page-check-in',
   templateUrl: 'check-in.html',
-  providers: [ LocationP, Checkin, MediaCapture, Camera, Geolocation,Transfer ]
+  providers: [LocationP, Checkin, MediaCapture, Camera, Geolocation, Transfer]
 })
 export class CheckIn {
-	
-	lat: any;
-	lng: any;
+
+  lat: any;
+  lng: any;
   src: any;
-	pic: boolean = true;
+  pic: boolean = true;
   loader = null;
+  public postStyle: PostStyle;
   public base64Image: string;
-  public data:any;
-  public detail:any;
-  public toUpload:any = {fileUrl:null, name:null};
-  public fileTransfer:TransferObject;
+  public data: any;
+  public detail: any;
+  public toUpload: any = { fileUrl: null, name: null };
+  public fileTransfer: TransferObject;
   public myposts: boolean = this.userProvider.checkMyPost();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public _haversineService: HaversineService, public alertCtrl: AlertController, public locationService: LocationP, public loadingCtrl: LoadingController, public checkinService: Checkin,  private camera: Camera, private geolocation: Geolocation, public userProvider: User, public media: MediaCapture, public transfer: Transfer) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public _haversineService: HaversineService, public alertCtrl: AlertController, public locationService: LocationP, public loadingCtrl: LoadingController, public checkinService: Checkin, private camera: Camera, private geolocation: Geolocation, public userProvider: User, public media: MediaCapture, public transfer: Transfer) { }
   ionViewDidLoad() {
-    const fileTransfer: TransferObject = this.transfer.create();
+    this.fileTransfer = this.transfer.create();
+    this.postStyle = PostStyle.PS_TEXT;
 
     console.log('ionViewDidLoad CheckInPage');
     this.loader = this.loadingCtrl.create({
@@ -45,58 +53,61 @@ export class CheckIn {
     this.geolocation.getCurrentPosition().then((resp) => {
       let lat = resp.coords.latitude;
       let lng = resp.coords.longitude;
-      
+      console.log("locataion Info (lat, lng)=(" + lat + "," + lng + ")");
       this.locationService.getNearByPlaces(lat, lng).subscribe(
         response => {
+          this.loader.dismiss();
           console.log(response.results)
           this.data = response.results;
           this.radioAlertFunc();
         },
-        error => console.log(error)
-        );
+        error => {
+          this.loader.dismiss();
+          console.log(error)
+        });
     }).catch((error) => {
+      this.loader.dismiss();
       let alert = this.alertCtrl.create({
-        title:'Error',
-        subTitle:'Error getting location',
-        message:error,
+        title: 'Error',
+        subTitle: 'Error getting location',
+        message: error,
         enableBackdropDismiss: false,
-        buttons:[{
-          text:'Goto Myfeed',
+        buttons: [{
+          text: 'Goto Myfeed',
           handler: data => {
             this.navCtrl.setRoot(MyFeed);
           }
         }]
       });
-      this.loader.dismiss();
       alert.present();
-      console.log('Error getting location'+ JSON.parse(error));
+      console.log('Error getting location' + JSON.parse(error));
     });
   }
 
-  radioAlertFunc(){
-  	let radioAlert = this.alertCtrl.create({
+  radioAlertFunc() {
+    let radioAlert = this.alertCtrl.create({
       enableBackdropDismiss: false
     });
     radioAlert.setTitle('Where are you:');
     for (var i = 0; i < this.data.length; ++i) {
-    	radioAlert.addInput({
-        type:'radio',
-        label:this.data[i].name,
-        value:this.data[i].place_id,
-        checked:false
+      radioAlert.addInput({
+        type: 'radio',
+        label: this.data[i].name,
+        value: this.data[i].place_id,
+        checked: false
       });
     }
     radioAlert.addButton({
-    	text:'Select',
-    	handler: data => {
-    		console.log(data);
+      text: 'Select',
+      handler: data => {
+        console.log(data);
         if (data == undefined) {
           let alert = this.alertCtrl.create({
-            title:'Error',
-            subTitle:'Please select a location.',
+            title: 'Error',
+            subTitle: 'Please select a location.',
             enableBackdropDismiss: false,
-            buttons:[{
-              text:'OKAY',
+            buttons: [{
+              text: 'OKAY',
               handler: data => {
                 this.radioAlertFunc();
               }
@@ -106,23 +117,23 @@ export class CheckIn {
           alert.present();
           return;
         }
-    		this.locationService.getPlaceDetails(data).subscribe(
+        this.locationService.getPlaceDetails(data).subscribe(
           response => {
             this.detail = response.result;
             console.log(this.detail)
           },
           error => console.log(error)
-          );
-    	}
+        );
+      }
     });
     radioAlert.addButton({
-      text:'Refresh',
+      text: 'Refresh',
       handler: data => {
         this.ionViewDidLoad();
       }
     });
     radioAlert.addButton({
-      text:'Cancel',
+      text: 'Cancel',
       handler: data => {
         this.navCtrl.setRoot(MyFeed);
       }
@@ -131,13 +142,13 @@ export class CheckIn {
     radioAlert.present();
   }
 
-  goto(){
-  	console.log(("check"));
+  goto() {
+    console.log(("check"));
   }
 
   takePicture() {
-    
-    let userChoice :boolean = this.userProvider.autoSavePicture();
+
+    let userChoice: boolean = this.userProvider.autoSavePicture();
 
     const options: CameraOptions = {
       quality: 80,
@@ -151,23 +162,27 @@ export class CheckIn {
     }
 
     this.camera.getPicture().then((imageData) => {
-     this.toUpload = {fileUrl:imageData, name:'photo'};
+      console.log("Camera pic Path::" + imageData);
+      this.postStyle = PostStyle.PS_PHOTO;
+      this.toUpload = { fileUrl: imageData, name: 'photo' };
     }, (err) => {
-     // Handle error
+      // Handle error
+      console.log("Camera pic error::" + err);
     });
   }
 
-  recordVideo(){
-    let options:any = { 
+  recordVideo() {
+    let options: any = {
       limit: 1,
       duration: 10,
-      quality: 100 
+      quality: 100
     };
     this.media.captureVideo(options)
-    .then(
+      .then(
       (data: MediaFile[]) => {
-        console.log(data)
-        this.toUpload = {fileUrl:data[0].fullPath, name:data[0].name};
+        console.log("Captured video info::" + data);
+        this.postStyle = PostStyle.PS_VIDEO;
+        this.toUpload = { fileUrl: data[0].fullPath, name: data[0].name };
       },
       (err: CaptureError) => console.log(err)
       );
@@ -183,71 +198,100 @@ export class CheckIn {
     }
     console.log(checkinType);
     this.loader = this.loadingCtrl.create({
-      spinner:'dots',
-      content:'Posting your checkin...'
+      spinner: 'dots',
+      content: 'Posting your checkin...'
     });
     this.loader.present();
-    let checkinData:any = {
-      'user_id':JSON.parse(localStorage.getItem('user'))._id,
-      'name':this.detail.name,
-      'address': this.detail.address_components[0].long_name+','+this.detail.address_components[1].long_name+','+this.detail.address_components[2].long_name+','+this.detail.address_components[3].long_name+','+this.detail.address_components[4].long_name,
+    let checkinData: any = {
+      'user_id': JSON.parse(localStorage.getItem('user'))._id,
+      'name': this.detail.name,
+      'address': this.detail.formatted_address,
       'latitude': this.detail.geometry.location.lat,
       'longitude': this.detail.geometry.location.lng,
-      'comment':comment,
-      'checkinType':checkinType
-
+      'comment': comment,
+      'checkinType': checkinType
     };
-   
-    var options: any;
-    options = {
-      fileKey: 'file',
-      fileName: this.toUpload.name,
-      headers: {}
-    }
+    //'address': this.detail.address_components[0].long_name+','+this.detail.address_components[1].long_name+','+this.detail.address_components[2].long_name+','+this.detail.address_components[3].long_name+','+this.detail.address_components[4].long_name,
 
-    options.mimeType="image/jpeg";
-    options.httpMethod="POST";
-    options.chunkedMode=false;
 
     console.log(this.toUpload.fileUrl);
-    if(this.toUpload.fileUrl != null && this.toUpload.fileUrl != '')
-    {
+    if (this.toUpload.fileUrl != null && this.toUpload.fileUrl != '') {
+      var options: any;
+      options = {
+        fileKey: 'file',
+        fileName: this.toUpload.name,
+        headers: {}
+      }
+
+      var ext = this.toUpload.fileUrl.split(".").pop();
+      if (this.postStyle == PostStyle.PS_PHOTO) {
+        if (ext == "jpg" || ext == "jpeg")
+          options.mimeType = "image/jpeg";
+        else if (ext == "png")
+          options.mimeType = "image/png";
+        else {
+          this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
+        }
+      } else if (this.postStyle == PostStyle.PS_VIDEO) {
+        if (ext == "mp4")
+          options.mimeType = "video/mp4";
+        else if (ext == "3gp")
+          options.mimeType = "video/3gp";
+        else if (ext == "avi")
+          options.mimeType = "video/avi";
+        else {
+          this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
+        }
+      } else {
+        console.error("Error: Exist Post file, but postStyle is for Text");
+      }
+      options.httpMethod = "POST";
+      options.chunkedMode = false;
+
       this.fileTransfer.upload(this.toUpload.fileUrl, "http://curiouslabx.com/projects/file_upload.php", options)
-      .then((data: any) => {
-        console.log(data);
-        checkinData.fileUrl = JSON.parse(data.response).filepath;
-        console.log(checkinData); 
-        this.checkinService.userCheckIn(checkinData).subscribe(
-          response => {
-            this.loader.dismiss();
-            console.log(response);
-            this.navCtrl.setRoot(MyFeed)
-          },
-          error => {
-            console.log(error);
-            this.loader.dismiss();
-          }
-        );
-      }, (err) => {
-        console.log(err);
-        this.loader.dismiss();
-      })
+        .then((data: any) => {
+          console.log(data);
+          checkinData.fileUrl = JSON.parse(data.response).filepath;
+          console.log(checkinData);
+          this.checkinService.userCheckIn(checkinData).subscribe(
+            response => {
+              this.loader.dismiss();
+              console.log(response);
+              this.navCtrl.setRoot(MyFeed)
+            },
+            error => {
+              console.log(error);
+              this.loader.dismiss();
+            }
+          );
+        }, (err) => {
+          console.log(err);
+          this.loader.dismiss();
+        })
     }
-    else
-    {
+    else {
       this.checkinService.userCheckIn(checkinData).subscribe(
-          response => {
-            this.loader.dismiss();
-            console.log(response);
-            this.navCtrl.setRoot(MyFeed)
-          },
-          error => {
-            console.log(error);
-            this.loader.dismiss();
-          }
-        );
+        response => {
+          this.loader.dismiss();
+          console.log(response);
+          this.navCtrl.setRoot(MyFeed)
+        },
+        error => {
+          console.log(error);
+          this.loader.dismiss();
+        }
+      );
     }
-    
+
   }
 
+  presentOKAlert(alertTitle: string, alertMsg: string) {
+
+    let alert = this.alertCtrl.create({
+      title: alertTitle,
+      subTitle: alertMsg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 }

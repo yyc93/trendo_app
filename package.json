@@ -1,5 +1,6 @@
 {
     "name": "ionic-hello-world",
+    "version": "1.0.1",
     "author": "Ionic Framework",
     "homepage": "http://ionicframework.com/",
     "private": true,
@@ -51,10 +52,10 @@
     },
     "devDependencies": {
         "@ionic/app-scripts": "1.1.4",
-        "@ionic/cli-plugin-cordova": "1.5.0",
-        "@ionic/cli-plugin-ionic-angular": "1.4.0",
-        "@ionic/cli-plugin-proxy": "1.4.0",
-        "ionic": "3.6.0",
+        "@ionic/cli-plugin-cordova": "1.6.1",
+        "@ionic/cli-plugin-ionic-angular": "1.4.1",
+        "@ionic/cli-plugin-proxy": "1.4.1",
+        "ionic": "3.7.0",
         "typescript": "2.0.9"
     },
     "config": {
@@ -70,6 +71,7 @@
         "ionic-plugin-keyboard",
         "cordova-plugin-geolocation",
         "cordova-plugin-camera",
+        "cordova-plugin-file",
         "cordova-plugin-file-transfer"
     ],
     "cordovaPlatforms": [],

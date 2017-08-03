@@ -14,7 +14,8 @@
         		<ion-icon name="at"></ion-icon>
 	      	</ion-avatar>
 	      	<h2>{{detail?.name}}</h2>
-	      	<p>{{detail?.address_components[0].long_name}},{{detail?.address_components[1].long_name}},{{detail?.address_components[2].long_name}},{{detail?.address_components[3].long_name}},{{detail?.address_components[4].long_name}}</p>
+	      	<p>{{detail?.formatted_address}}</p>
+	      	<!-- <p>{{detail?.address_components[0].long_name}},{{detail?.address_components[1].long_name}},{{detail?.address_components[2].long_name}},{{detail?.address_components[3].long_name}},{{detail?.address_components[4].long_name}}</p> -->
     	</ion-item>
 
     	<div class="map-container">

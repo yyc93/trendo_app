@@ -8,7 +8,7 @@ import { User } from '../../providers/user';
 import { Checkin } from '../../providers/checkin';
 
 import { Geolocation } from '@ionic-native/geolocation';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture';
 
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
@@ -163,8 +163,9 @@ export class CheckIn {
 
     this.camera.getPicture().then((imageData) => {
       console.log("Camera pic Path::" + imageData);
+      var filename = imageData.split('/').pop();
       this.postStyle = PostStyle.PS_PHOTO;
-      this.toUpload = { fileUrl: imageData, name: 'photo' };
+      this.toUpload = { fileUrl: imageData, name: filename };
     }, (err) => {
       // Handle error
       console.log("Camera pic error::" + err);
@@ -172,15 +173,15 @@ export class CheckIn {
   }
 
   recordVideo() {
-    let options: any = {
+    let options: CaptureVideoOptions = {
       limit: 1,
       duration: 10,
-      quality: 100
+      quality: 1
     };
     this.media.captureVideo(options)
       .then(
       (data: MediaFile[]) => {
-        console.log("Captured video info::" + data);
+        console.log("Captured video info::path=" + data[0].fullPath + " Size="+data[0].size);
         this.postStyle = PostStyle.PS_VIDEO;
         this.toUpload = { fileUrl: data[0].fullPath, name: data[0].name };
       },
@@ -231,16 +232,18 @@ export class CheckIn {
           options.mimeType = "image/png";
         else {
           this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
+          return;
         }
       } else if (this.postStyle == PostStyle.PS_VIDEO) {
         if (ext == "mp4")
           options.mimeType = "video/mp4";
         else if (ext == "3gp")
-          options.mimeType = "video/3gp";
+          options.mimeType = "video/3gpp";
         else if (ext == "avi")
           options.mimeType = "video/avi";
         else {
           this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
+          return;
         }
       } else {
         console.error("Error: Exist Post file, but postStyle is for Text");

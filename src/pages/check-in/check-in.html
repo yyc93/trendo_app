@@ -55,16 +55,16 @@
 				  	</ion-item>
 		        </ion-col>
 	      	</ion-row>
-	      	<ion-row center>
-		        <ion-col width-100>
-		          	<ion-item>
-					    <img src="{{toUpload.fileUrl}}">
-				  	</ion-item>
-		        </ion-col>
-	      	</ion-row>
+		</ion-card-content>
 
-	      	
-	    </ion-card-content>
-  	</ion-card>
+		<div class="pic-container" *ngIf="postStyle == 1">			
+			<img src="{{toUpload.fileUrl}}">
+		</div>
+		
+		<div class="video-container" *ngIf="postStyle == 2">
+			<video src="{{toUpload.fileUrl}}" controls="controls" autoplay></video>
+		</div>
+	  </ion-card>
+	
   	<button ion-button block (click)="makeCheckin(comment, userProvider.checkMyPost())">POST</button>
 </ion-content>

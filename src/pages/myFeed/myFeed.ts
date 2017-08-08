@@ -78,7 +78,7 @@ export class MyFeed {
                 else {
                     this.tmp[i].fileType = 'text';
                     this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
-                }				
+                }
             }
 
             this.data.push(this.tmp[i]);

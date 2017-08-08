@@ -19,20 +19,28 @@ page-check-in {
 	    width: 100%;
 	}
 
+	.pic-container img {
+		margin: auto;
+		width: initial;
+		max-width: 100%;
+		max-height: 200px;
+	}
+
 	.video-container{
 		margin-top:10px;
-		height: 200px;
+		padding-top: 56.25%; /* 16:9 Aspect Ratio */ //75%; /* 4:3 Aspect Ratio */
 	    width: 100%;
+    	position: relative;
 	}
 
 	.video-container video {
-		height: 200px;
-	    width: 100%;
-	}
-
-	.pic-container img {
-		max-width: 100%;
-		max-height: 200px;
+		max-height: 100%;
+		width: 100%;		
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
 	}
 
 	.button-md {

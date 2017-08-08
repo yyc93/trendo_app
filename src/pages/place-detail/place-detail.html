@@ -64,11 +64,13 @@
       </ion-avatar>
     </ion-item>
 
-     <video controls width="320" height="240" width="" *ngIf="checkin.fileType == 'video' && checkin.fileUrl != undefined">
-        <source src="{{checkin.fileUrl}}" type="video/mp4" />
-      </video>
-      <img *ngIf="checkin.fileType == 'image' && checkin.fileUrl != undefined" src="{{checkin.fileUrl}}">
-      <img *ngIf="checkin.fileType == 'image' && checkin.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+    <div class="video-container" *ngIf="checkin.fileType == 'video' && checkin.fileUrl != undefined">
+      <video src="{{checkin.fileUrl}}" controls="controls" preload="none"></video>
+    </div>
+    <div class="pic-container" *ngIf="checkin.fileType == 'image'">
+      <img *ngIf="checkin.fileUrl != undefined" src="{{checkin.fileUrl}}">
+      <img *ngIf="checkin.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+    </div>
 
     <ion-card-content>
       <ion-row>

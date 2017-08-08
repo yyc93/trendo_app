@@ -35,10 +35,16 @@ export class PlaceDetail {
   					for (var i = 0; i < response.length; ++i) {
               if(response[i].fileUrl != undefined)
               {
-                if(response[i].fileUrl.indexOf('mp4') > 0)
-                  response[i].fileType = 'video';
-                else
-                  response[i].fileType = 'image';
+
+                var ext = response[i].fileUrl.split(".").pop();
+                if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "photo")
+                    response[i].fileType = 'image';
+                else if (ext == "mp4" || ext == "3gp" || ext == "avi")
+                    response[i].fileType = 'video';
+                else {
+                    response[i].fileType = 'text';
+                    console.error("Format Error : This file is not able to show.");
+                }
 
                 this.checkin.push(response[i]);
               }

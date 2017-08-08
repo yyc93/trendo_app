@@ -53,8 +53,13 @@
       </ion-avatar>
     </ion-item>
 
-    <img *ngIf="data.fileUrl != undefined" src="{{data.fileUrl}}">
+    <div class="video-container" *ngIf="data.fileType == 'video' && data.fileUrl != undefined">
+      <video src="{{data.fileUrl}}" controls="controls" preload="none"></video>
+    </div>
+    <div class="pic-container" *ngIf="data.fileType == 'image'">
+      <img *ngIf="data.fileUrl != undefined" src="{{data.fileUrl}}">
       <img *ngIf="data.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
+    </div>
 
     <ion-card-content>
       <ion-row>

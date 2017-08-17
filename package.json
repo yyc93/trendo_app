@@ -1,6 +1,6 @@
 {
-    "name": "ionic-hello-world",
-    "version": "1.0.1",
+    "name": "Trendo",
+    "version": "1.0.2",
     "author": "Ionic Framework",
     "homepage": "http://ionicframework.com/",
     "private": true,
@@ -36,7 +36,7 @@
         "cordova-plugin-file": "^4.0.0",
         "cordova-plugin-file-transfer": "^1.6.3",
         "cordova-plugin-geolocation": "^2.4.3",
-        "cordova-plugin-media-capture": "^1.4.3",
+        "cordova-plugin-open-camera": "git+https://github.com/yyc93/cordova-plugin-open-camera.git",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.1",
         "cordova-plugin-whitelist": "^1.3.1",
@@ -90,9 +90,9 @@
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-geolocation": {},
-            "cordova-plugin-media-capture": {},
             "cordova-plugin-file-transfer": {},
-            "cordova-plugin-file": {}
+            "cordova-plugin-file": {},
+            "cordova-plugin-open-camera": {}
         },
         "platforms": [
             "android"

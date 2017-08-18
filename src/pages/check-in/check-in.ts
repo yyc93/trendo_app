@@ -176,7 +176,7 @@ export class CheckIn {
     let options: CaptureVideoOptions = {
       limit: 1,
       duration: 10,
-      quality: 1
+      quality: 5
     };
     this.media.captureVideo(options)
       .then(

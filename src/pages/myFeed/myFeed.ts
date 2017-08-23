@@ -13,11 +13,12 @@ import { _Notification } from '../notification/notification';
 import { Checkin } from '../../providers/checkin';
 import { Business } from '../../providers/business';
 import { User } from '../../providers/user';
+import { GlobalVars } from '../../providers/global-vars';
 
 @Component({
   selector: 'page-myFeed',
   templateUrl: 'myFeed.html',
-  providers:[Checkin, Business]
+  providers:[Checkin, Business, GlobalVars]
 })
 export class MyFeed {
 
@@ -30,11 +31,19 @@ export class MyFeed {
     length:number;
     j = 1;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public checkinProvider: Checkin, public business: Business, public userProvider: User ) {}
+    constructor(public navCtrl: NavController
+        , public navParams: NavParams
+        , public loadingCtrl: LoadingController
+        , public alertCtrl: AlertController
+        , public checkinProvider: Checkin
+        , public business: Business
+        , public userProvider: User
+        , public globalVars : GlobalVars ) {}
 
     ionViewDidLoad(){
         // console.log(this.dateTime.getDate()+"/"+this.dateTime.getDay()+"/"+this.dateTime.getFullYear());
         // console.log(this.dateTime.getHours()-12+":"+this.dateTime.getMinutes()+":"+this.dateTime.getSeconds());
+    
         this.loader = this.loadingCtrl.create({
             spinner:'dots',
             content:'Loading Checkins...'
@@ -67,6 +76,7 @@ export class MyFeed {
     success(i){
         if(i != this.length) {
             this.tmp[i].type = 'user';
+            let isSkip :boolean = false;
 
             if(this.tmp[i].fileUrl != undefined)
             {
@@ -77,16 +87,18 @@ export class MyFeed {
                     this.tmp[i].fileType = 'video';
                 else {
                     this.tmp[i].fileType = 'text';
-                    this.presentOKAlert("Format Error", "This file is not able to post. Please try again with another format.");
+                    isSkip = true;
+                    console.error("Format Error" + this.tmp[i]);
                 }
             }
-
-            this.data.push(this.tmp[i]);
-            if(this.j == 5) {
-                this.businessAds(i);
-                return;
+            if( !isSkip ) {
+                this.data.push(this.tmp[i]);
+                if(this.j == 5) {
+                    this.businessAds(i);
+                    return;
+                }
+                this.j++;
             }
-            this.j++;
             this.success(i+1);
         }
         else if( i == this.length){

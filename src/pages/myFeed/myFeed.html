@@ -56,7 +56,7 @@
         <source src="{{data.fileUrl}}" type="video/mp4" />
       </video> -->
       <div class="video-container" *ngIf="data.fileType == 'video'">
-        <video src="{{data.fileUrl}}" controls="controls" preload="none"></video>
+        <video src="{{data.fileUrl}}" poster="{{data.thumbUrl}}" controls="controls" preload="none"></video>
       </div>
       <div class="pic-container" *ngIf="data.fileType == 'image'">
         <img *ngIf="data.fileUrl != undefined" src="{{data.fileUrl}}">

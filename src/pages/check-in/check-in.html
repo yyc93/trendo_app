@@ -57,12 +57,12 @@
 	      	</ion-row>
 		</ion-card-content>
 
-		<div class="pic-container" *ngIf="postStyle == 1">			
+		<div class="pic-container" *ngIf="postStyle == 1">
 			<img src="{{toUpload.fileUrl}}">
 		</div>
 		
 		<div class="video-container" *ngIf="postStyle == 2">
-			<video src="{{toUpload.fileUrl}}" controls="controls" autoplay></video>
+			<video src="{{toUpload.fileUrl}}" poster="{{toUpload2.fileUrl}}" controls="controls" autoplay></video>
 		</div>
 	  </ion-card>
 	

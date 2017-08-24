@@ -54,7 +54,7 @@
     </ion-item>
 
     <div class="video-container" *ngIf="data.fileType == 'video' && data.fileUrl != undefined">
-      <video src="{{data.fileUrl}}" controls="controls" preload="none"></video>
+      <video src="{{data.fileUrl}}" poster="{{data.thumbUrl}}" controls="controls" preload="none"></video>
     </div>
     <div class="pic-container" *ngIf="data.fileType == 'image'">
       <img *ngIf="data.fileUrl != undefined" src="{{data.fileUrl}}">
@@ -71,9 +71,10 @@
         <ion-col>
           <ion-avatar item-left>
             <ion-icon name="contact"></ion-icon>
-            
+            {{data?._userID?.username}}
           </ion-avatar>
         </ion-col>
+
         <ion-col style="text-align:right;">
           <ion-icon name="list-box"></ion-icon>
           {{data.dateTime | timeAgo}}

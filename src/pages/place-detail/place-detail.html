@@ -65,7 +65,7 @@
     </ion-item>
 
     <div class="video-container" *ngIf="checkin.fileType == 'video' && checkin.fileUrl != undefined">
-      <video src="{{checkin.fileUrl}}" controls="controls" preload="none"></video>
+      <video src="{{checkin.fileUrl}}" poster="{{checkin.thumbUrl}}" controls="controls" preload="none"></video>
     </div>
     <div class="pic-container" *ngIf="checkin.fileType == 'image'">
       <img *ngIf="checkin.fileUrl != undefined" src="{{checkin.fileUrl}}">

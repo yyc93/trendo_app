@@ -21,7 +21,7 @@ export class MyCheckIns {
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public checkinService: Checkin, public userService: User) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+    console.log('ionViewDidLoad MyCheckin Page');
     this.loader = this.loadingCtrl.create({
       'spinner': 'dots',
       'content': 'Loading your checkins...'

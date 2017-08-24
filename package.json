@@ -54,8 +54,8 @@
         "@ionic/app-scripts": "1.1.4",
         "@ionic/cli-plugin-cordova": "1.6.1",
         "@ionic/cli-plugin-ionic-angular": "1.4.1",
-        "@ionic/cli-plugin-proxy": "1.4.1",
-        "ionic": "3.7.0",
+        "@ionic/cli-plugin-proxy": "1.4.6",
+        "ionic": "3.9.2",
         "typescript": "2.0.9"
     },
     "config": {

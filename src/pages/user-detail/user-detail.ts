@@ -30,26 +30,28 @@ export class UserDetail {
         this.userProvider.getUserProfile(this.id).subscribe(
             response => {
                 console.log(response);
+                this.loader.dismiss();
                 this.user = response;
-                for( var item of this.user.userCheckins){
-                    if(item.fileUrl != undefined)
-                    {
-                        var ext = item.fileUrl.split(".").pop();
-                        if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "photo")
-                                item.fileType = 'image';
-                        else if (ext == "mp4" || ext == "3gp" || ext == "avi")
-                                item.fileType = 'video';
-                        else {
-                                item.fileType = 'text';
-                                console.error("Format Error : This file is not able to show");
+                if( this.user.userCheckins != null ){
+                    for( var item of this.user.userCheckins){
+                        if(item.fileUrl != undefined)
+                        {
+                            var ext = item.fileUrl.split(".").pop();
+                            if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "photo")
+                                    item.fileType = 'image';
+                            else if (ext == "mp4" || ext == "3gp" || ext == "avi")
+                                    item.fileType = 'video';
+                            else {
+                                    item.fileType = 'text';
+                                    console.error("Format Error : This file is not able to show");
+                            }
                         }
                     }
+                    this.userConnectionsLength = response.userConnection.length;
+                    if(this.id == this.current) {
+                        this.friendBtn = false;
+                    }
                 }
-                this.userConnectionsLength = response.userConnection.length;
-                if(this.id == this.current) {
-                    this.friendBtn = false;
-                }
-                this.loader.dismiss();
             },
             error => {
                 console.log(error);

@@ -1,5 +1,8 @@
 {
   "name": "trendo",
   "app_id": "68357c72",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

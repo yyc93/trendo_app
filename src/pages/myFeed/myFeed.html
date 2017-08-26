@@ -43,11 +43,11 @@
   <ion-card *ngFor="let data of data">
     <div *ngIf="data.type == 'user'">
       <ion-item (click)="gotoDetails(data._businessId)">
-        <ion-avatar item-left>
+        <ion-avatar item-start>
           <ion-icon name="restaurant"></ion-icon>
         </ion-avatar>
         <h2>{{data.placeName}}</h2>
-        <ion-avatar item-right>
+        <ion-avatar item-end>
           <ion-icon name="navigate"></ion-icon>
         </ion-avatar>
       </ion-item>
@@ -63,25 +63,52 @@
         <img *ngIf="data.fileUrl == undefined" src="http://lorempixel.com/400/200/food/">
       </div>
 
-      <ion-card-content>
-        <ion-row>
-          <ion-col>
-            <p>{{data.comment}}</p>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col *ngIf="data.checkinType != 'private'" (click)="gotoUser(data.user_id)">
-            <ion-avatar item-left>
-              <ion-icon name="contact"></ion-icon>
-              {{data?._userID?.username}}
-            </ion-avatar>
-          </ion-col>
-          <ion-col style="text-align:right;">
-                <ion-icon name="list-box"></ion-icon>
-                {{data?.dateTime | timeAgo}}
-                <button *ngIf="data.user_id == userProvider.getCurrentUser()._id" (click)="deletePost(data._id)">Delete</button>
-          </ion-col>
-        </ion-row>
+      <ion-card-content class="card-bottom-content">
+        <ion-grid>          
+          <ion-row>
+            <ion-col>
+              <p>{{data.comment}}</p>
+            </ion-col>
+          </ion-row>
+          
+          <ion-row>
+            <ion-col>
+              <ion-row *ngIf="data.checkinType != 'private'" (click)="gotoUser(data.user_id)">
+                  <!-- <ion-avatar item-start>
+                    <ion-icon name="contact"></ion-icon>
+                    {{data?._userID?.username}}
+                  </ion-avatar> -->
+                  <button ion-button color="mblack" clear small icon-start>
+                    <ion-icon name='contact'></ion-icon>
+                    {{data?._userID?.username}}
+                  </button>
+              </ion-row>
+
+              <ion-row>
+                  <button (click)="goComments(data._id)" ion-button color="dark_gray" clear small icon-start>
+                    <ion-icon name='text'></ion-icon>
+                    64 Comments
+                  </button>
+              </ion-row>
+            </ion-col>
+            <ion-col>
+              <ion-row class="dayago">
+                <ion-col text-right>
+                  <button ion-button color="mblack" clear small icon-start [disabled]="true">
+                    <!-- <ion-icon name='list-box'></ion-icon> -->
+                    {{data?.dateTime | timeAgo}}
+                  </button>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="data.user_id == userProvider.getCurrentUser()._id">
+                <ion-col text-right>
+                  <button (click)="deletePost(data._id)">Delete</button>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </div>
 
@@ -105,7 +132,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <!-- <ion-avatar item-left>
+            <!-- <ion-avatar item-start>
               <ion-icon name="contact"></ion-icon>
               {{data.firstName}}
             </ion-avatar> -->

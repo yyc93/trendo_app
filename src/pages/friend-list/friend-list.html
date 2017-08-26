@@ -18,7 +18,7 @@
 		<div *ngIf="length?.requests != 0">
 			<ion-item-sliding *ngFor="let request of requests">
 		  	<ion-item>
-		    	<ion-avatar item-left>
+		    	<ion-avatar item-start>
 		      		<img src="img/avatar-finn.png">
 		    	</ion-avatar>
 			    <h2>Finn</h2>
@@ -57,7 +57,7 @@
   	<div *ngIf="length?.friends != 0">
 			<ion-item-sliding *ngFor="let friend of friends">
 				<ion-item>
-			  	<ion-avatar item-left (click)="profile(friend._id)">
+			  	<ion-avatar item-start (click)="profile(friend._id)">
 		    		<img src="img/avatar-finn.png">
 			    </ion-avatar>
 			    <h2>{{friend.username}}</h2>

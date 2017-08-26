@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
-import { Facebook, NativeStorage } from 'ionic-native';
 import { MyFeed } from '../myFeed/myFeed';
 import { Signup } from '../signup/signup';
 
@@ -9,7 +9,7 @@ import { User } from '../../providers/user';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers:[User]
+  providers:[User, Facebook]
 })
 export class Login {
 
@@ -18,11 +18,11 @@ export class Login {
   loader = null;
   FB_APP_ID: number = 1318290321592685 ;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public userService: User) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public fb: Facebook, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public userService: User) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-    Facebook.browserInit(this.FB_APP_ID, "v2.8");
+    this.fb.browserInit(this.FB_APP_ID, "v2.8");
     let user = localStorage.getItem('user');
     if(user != undefined)
     	this.navCtrl.setRoot(MyFeed);
@@ -78,18 +78,24 @@ export class Login {
   loginFacebook() {
     let permissions = new Array();
     //the permissions your facebook app needs from the user
-    permissions = ["public_profile"];
+    permissions = ["public_profile", 'user_friends', 'email'];
     let nav = this.navCtrl;
     let service = this.userService;
-    Facebook.login(permissions)
-    .then(function(response){
-      let userId = response.authResponse.userID;
+    
+  //   this.fb.login(['public_profile', 'user_friends', 'email'])
+  // .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+  // .catch(e => console.log('Error logging into Facebook', e));
+
+    this.fb.login(permissions)
+    .then((res: FacebookLoginResponse) => {
+      console.log('Logged into Facebook!', res)
+      let userId = res.authResponse.userID;
       let params = new Array();
 
       //Getting name and gender properties
-      Facebook.api("/me?fields=name,gender,email", params)
-      .then(function(user) {
-        user.avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
+      this.fb.api("/me?fields=name,gender,email", params)
+      .then( (user: any) => {
+        // user.avatar = "https://graph.facebook.com/" + userId + "/picture?type=large";
         //now we have the users info, let's save it in the NativeStorage
         console.log(user);
         let data;
@@ -109,8 +115,7 @@ export class Login {
           }
         );
       })
-    }, function(error){
-      console.log(error);
+      .catch(e => console.log('Error logging into Facebook', e));
     });
   }
 }

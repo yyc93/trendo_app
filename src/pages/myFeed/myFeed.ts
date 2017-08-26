@@ -9,6 +9,7 @@ import { SearchPeople } from '../search-people/search-people';
 import { FilterCategory } from '../filter-category/filter-category';
 import { CheckIn } from '../check-in/check-in';
 import { _Notification } from '../notification/notification';
+import { CommentsPage } from '../comments/comments';
 
 import { Checkin } from '../../providers/checkin';
 import { Business } from '../../providers/business';
@@ -131,6 +132,11 @@ export class MyFeed {
         });
         alert.present();
     }
+
+    goComments(postId){
+         this.navCtrl.push(CommentsPage, {id: postId});
+    }
+
 
     businessAds(i) {
         this.j = 1;

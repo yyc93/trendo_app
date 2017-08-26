@@ -93,7 +93,7 @@ export class CheckIn {
             let alert = this.alertCtrl.create({
                 title: 'Error',
                 subTitle: 'Error getting location',
-                message: error,
+                message: error.message,
                 enableBackdropDismiss: false,
                 buttons: [{
                     text: 'Goto Myfeed',
@@ -103,7 +103,7 @@ export class CheckIn {
                 }]
             });
             alert.present();
-            console.log('Error getting location' + JSON.parse(error));
+            console.log('Error getting location('+error.code+ ') : ' + error.message);
         });
     }
 

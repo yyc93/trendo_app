@@ -54,12 +54,12 @@
 	<ion-card *ngFor="let checkin of checkin">
 
     <ion-item>
-      <ion-avatar item-left>
+      <ion-avatar item-start>
         <ion-icon name="restaurant"></ion-icon>
       </ion-avatar>
       <h2>{{checkin?.placeName}}</h2>
       <p>{{checkin?.address}}</p>
-      <ion-avatar item-right>
+      <ion-avatar item-end>
         <ion-icon name="navigate"></ion-icon>
       </ion-avatar>
     </ion-item>
@@ -80,7 +80,7 @@
       </ion-row>
       <ion-row>
         <ion-col (click)="gotoUser(checkin.user_id)">
-          <ion-avatar item-left>
+          <ion-avatar item-start>
             <ion-icon name="contact"></ion-icon>
             {{checkin?._userID.username}}
           </ion-avatar>

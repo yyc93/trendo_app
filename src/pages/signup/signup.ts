@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
-import { Camera } from 'ionic-native';
+import { Camera } from '@ionic-native/camera';
 
 import { Login } from '../login/login';
 import { MyFeed } from '../myFeed/myFeed';
@@ -10,14 +10,14 @@ import { User } from '../../providers/user';
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
-  providers: [User]
+  providers: [User, Camera]
 })
 export class Signup {
 
 	public base64Image: string;
 	public show:boolean = true;
   loader = null;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public userService: User, public loadingCtrl: LoadingController) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public userService: User, public loadingCtrl: LoadingController, private camera: Camera) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
@@ -103,7 +103,7 @@ export class Signup {
   		cameraDirection:1, //BACK: 0 FRONT: 1
   	}
 
-  	Camera.getPicture(options).then(
+  	this.camera.getPicture(options).then(
       (imageData) => {
 			  this.base64Image = 'data:image/jpeg;base64,' + imageData;
 	 		  this.show = false;

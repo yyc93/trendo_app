@@ -43,12 +43,12 @@
 
   <ion-card *ngFor="let data of user?.userCheckins">
     <ion-item (click)="gotoDetails(data._businessId)">
-      <ion-avatar item-left>
+      <ion-avatar item-start>
         <ion-icon name="flower"></ion-icon>
       </ion-avatar>
       <h2>{{data.placeName}}</h2>
       <p>{{data.address}}</p>
-      <ion-avatar item-right>
+      <ion-avatar item-end>
         <ion-icon name="navigate"></ion-icon>
       </ion-avatar>
     </ion-item>
@@ -69,7 +69,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-avatar item-left>
+          <ion-avatar item-start>
             <ion-icon name="contact"></ion-icon>
             {{data?._userID?.username}}
           </ion-avatar>

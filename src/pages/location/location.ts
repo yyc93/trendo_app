@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
-import { Geolocation, Transfer } from 'ionic-native';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /*
   Generated class for the Location page.
@@ -18,7 +18,7 @@ import { Geolocation, Transfer } from 'ionic-native';
   	lat:any;
   	lng:any;
 
-  	constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {}
+  	constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, private geolocation: Geolocation) {}
 
   	ionViewDidLoad() {
   		console.log('ionViewDidLoad LocationPage');
@@ -28,7 +28,7 @@ import { Geolocation, Transfer } from 'ionic-native';
   			'content': 'Loading Location'
   		});
   		this.loader.present();
-  		Geolocation.getCurrentPosition().then((resp) => {
+  		this.geolocation.getCurrentPosition().then((resp) => {
   			this.lat = resp.coords.latitude;
   			this.lng = resp.coords.longitude;
 

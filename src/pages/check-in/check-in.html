@@ -10,7 +10,7 @@
 <ion-content padding>
 	<ion-card>
 		<ion-item>
-      		<ion-avatar item-left>
+      		<ion-avatar item-start>
         		<ion-icon name="at"></ion-icon>
 	      	</ion-avatar>
 	      	<h2>{{detail?.name}}</h2>
@@ -19,11 +19,11 @@
     	</ion-item>
 
     	<div class="map-container">
-			<sebm-google-map [zoom]="14" [disableDefaultUI]="false" [zoomControl]="true" [scrollwheel]="true" [mapDraggable]="true" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng">
+			<agm-map [zoom]="14" [disableDefaultUI]="false" [zoomControl]="true" [scrollwheel]="true" [mapDraggable]="true" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng">
 			  	
-			  	<sebm-google-map-marker (markerClick)="tryHaversine()" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng" [draggable]="true"></sebm-google-map-marker>
+			  	<agm-marker (markerClick)="tryHaversine()" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng" [draggable]="true"></agm-marker>
 			  	
-			</sebm-google-map>
+			</agm-map>
 		</div>
 
 		<div [hidden]="pic" align="center" class="pic-container">

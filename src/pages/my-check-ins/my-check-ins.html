@@ -27,11 +27,11 @@
     	<ion-card *ngFor="let data of data">
 
 	      	<ion-item (click)="gotoDetails(data._businessId)">
-		        <ion-avatar item-left>
+		        <ion-avatar item-start>
 		          	<ion-icon name="restaurant"></ion-icon>
 		        </ion-avatar>
 		        <h2>{{data.placeName}}</h2>
-		        <ion-avatar item-right>
+		        <ion-avatar item-end>
 		          	<ion-icon name="navigate"></ion-icon>
 		        </ion-avatar>
 	      	</ion-item>
@@ -53,7 +53,7 @@
 		        </ion-row>
 		        <ion-row>
 		          	<ion-col (click)="gotoUser(data.user_id)">
-			            <ion-avatar item-left>
+			            <ion-avatar item-start>
 			              	<ion-icon name="contact"></ion-icon>
 			              	{{data?._userID?.username}}
 			            </ion-avatar>

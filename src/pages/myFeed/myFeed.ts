@@ -93,6 +93,7 @@ export class MyFeed {
                 }
             }
             if( !isSkip ) {
+                this.tmp[i].commentCount = this.tmp[i]._postComments.length;
                 this.data.push(this.tmp[i]);
                 if(this.j == 5) {
                     this.businessAds(i);
@@ -114,21 +115,20 @@ export class MyFeed {
             title:'Are you sure?',
             subTitle:'You are about to delete a checkin...',
             buttons:[
-             {
-                text:'Yes',
-                handler: () => {
-                    this.checkinProvider.deleteCheckin(postId).subscribe(
-                        response => {
-                            this.data = [];
-                            this.ionViewDidLoad();
-                        }
-                    );
-                 }
-             },
-             {
-                 text:'No'
-             }
-            ]
+            {
+            text:'Yes',
+            handler: () => {
+                this.checkinProvider.deleteCheckin(postId).subscribe(
+                    response => {
+                        this.data = [];
+                        this.ionViewDidLoad();
+                    }
+                );
+                }
+            },
+            {
+                text:'No'
+            }]
         });
         alert.present();
     }

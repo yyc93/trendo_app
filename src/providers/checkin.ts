@@ -42,7 +42,7 @@ export class Checkin {
   }
 
   getCheckInComments(checkin_id: string) {
-    return this.http.get(this.baseUrl + 'comment/' + checkin_id) // ...using get request
+    return this.http.get(this.baseUrl + 'checkin/comment/' + checkin_id) // ...using get request
     .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
     .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if an
   }
@@ -55,7 +55,7 @@ export class Checkin {
     body.append('commentText', comment);
     body.append('userID', userID);
 
-    return this.http.post(this.baseUrl + 'comment/newpost/', body, headers) // ...using post request
+    return this.http.post(this.baseUrl + 'checkin/comment/newcomment/', body, headers) // ...using post request
       .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
       .catch((error:any) => Observable.throw(error)); //...errors if an	
   }

@@ -41,6 +41,25 @@ export class Checkin {
     .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if an
   }
 
+  getCheckInComments(checkin_id: string) {
+    return this.http.get(this.baseUrl + 'comment/' + checkin_id) // ...using get request
+    .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
+    .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if an
+  }
+
+  createCheckinComment(comment: string, checkinId: string, userID: string) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });  //'application/x-www-form-urlencoded'
+   
+    let body = new FormData();
+    body.append('checkin_id', checkinId);
+    body.append('commentText', comment);
+    body.append('userID', userID);
+
+    return this.http.post(this.baseUrl + 'comment/newpost/', body, headers) // ...using post request
+      .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
+      .catch((error:any) => Observable.throw(error)); //...errors if an	
+  }
+
   getAllPublicCheckIns(){
     return this.http.get(this.baseUrl + 'checkin/public') // ...using get request
     .map((res:Response) => res.json()) // ...and calling .json() on the response to return data

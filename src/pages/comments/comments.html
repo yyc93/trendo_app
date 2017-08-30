@@ -6,56 +6,53 @@
 </ion-header>
 
 <ion-content class="list-avatar-page">
-  <ion-list>
     
-    <ion-list-header>Today</ion-list-header>
-    
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="assets/img/avatar-ts-woody.png">
-      </ion-avatar>
-      <h2>Woody</h2>
-      <p>This town ain't big enough for the two of us!</p>
-      <ion-note item-end>3:43 pm</ion-note>
-    </ion-item>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+      </ion-refresher-content>
+  </ion-refresher>
 
-    <ion-item>
-      <ion-avatar item-start>
-        <!-- <img src="assets/img/avatar-ts-woody.png"> -->
-        <ion-icon name="contact"></ion-icon>
-      </ion-avatar>
-      <h2>Woody</h2>
-      <p>This town ain't big enough for the two of us!</p>
-      <ion-note item-end>3:43 pm</ion-note>
-    </ion-item>
+  <div *ngIf="!isEmpty">      
+    <ion-list>    
+      <!-- <ion-list-header>Today</ion-list-header> -->
 
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="assets/img/avatar-ts-buzz.png">
-      </ion-avatar>
-      <h2>Buzz Lightyear</h2>
-      <p>My eyeballs could have been sucked from their sockets!</p>
-      <ion-note item-end>1:12 pm</ion-note>
-    </ion-item>
+      <ion-item *ngFor="let comment of data">
+        <ion-avatar item-start>
+          <!-- <img src="assets/img/avatar-ts-woody.png"> -->
+          <ion-icon name="contact"></ion-icon>
+        </ion-avatar>
+        <h2>{{comment?._userID?.username}}</h2> 
+        <p>{{comment.commentText}}</p>
+        <ion-note item-end>{{comment?.dateTime | timeAgo}}</ion-note>
+      </ion-item>
 
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="assets/img/avatar-ts-jessie.png">
-      </ion-avatar>
-      <h2>Jessie</h2>
-      <p>Well aren't you just the sweetest space toy I ever did meet!</p>
-      <ion-note item-end>10:03 am</ion-note>
-    </ion-item>
+    </ion-list>
+  </div>
 
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="assets/img/avatar-ts-potatohead.png">
-      </ion-avatar>
-      <h2>Mr. Potato Head</h2>
-      <p>You're not turning me into a Mashed Potato.</p>
-      <ion-note item-end>5:47 am</ion-note>
-    </ion-item>
-
-  </ion-list>
+  	<!-- <div *ngIf="isEmpty" class="card-background-page">
+	    <ion-card>
+	      	<img src="assets/img/nodata.jpg"/>
+	      	<div class="card-subtitle">You dont have any Checkins from last 24hrs.</div>
+	    </ion-card>
+    </div> -->
 
 </ion-content>
+
+<ion-footer>
+  <ion-navbar>
+      <ion-item no-lines>
+        <div item-start>
+          <ion-icon name="send"></ion-icon>
+        </div>
+        <ion-input [(ngModel)]="comment" type="text" placeholder="Add a comment..."></ion-input>
+
+        <button ion-button item-end backgound-color="light_blue" clear icon-only (click)="newPostComment(comment, checkinId, currentUserId)">
+          <ion-icon name='checkmark' is-active="false"></ion-icon>
+        </button>
+      </ion-item>
+  </ion-navbar>
+</ion-footer>

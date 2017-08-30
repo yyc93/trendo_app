@@ -58,7 +58,7 @@ export class MyCheckIns {
   }
 
   doRefresh(refresher) {
-      this.ionViewDidLoad();
+    this.ionViewDidLoad();
     setTimeout(() => {
         console.log('Async operation has ended');
         refresher.complete();

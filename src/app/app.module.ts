@@ -30,10 +30,10 @@ import { MyCheckIns } from '../pages/my-check-ins/my-check-ins';
 import { CommentsPage } from '../pages/comments/comments';
 
 
+import { Business } from '../providers/business';
+import { Checkin } from '../providers/checkin';
 import { LocationP } from '../providers/location';
 import { User } from '../providers/user';
-import { Checkin } from '../providers/checkin';
-import { Business } from '../providers/business';
 
 @NgModule({
   declarations: [

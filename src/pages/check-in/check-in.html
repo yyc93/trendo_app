@@ -19,7 +19,7 @@
     	</ion-item>
 
     	<div class="map-container">
-			<agm-map [zoom]="14" [disableDefaultUI]="false" [zoomControl]="true" [scrollwheel]="true" [mapDraggable]="true" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng">
+			<agm-map [zoom]="18" [disableDefaultUI]="false" [zoomControl]="true" [scrollwheel]="true" [mapDraggable]="true" [latitude]="locatePos.lat" [longitude]="locatePos.lng" (mapReady)="initMapInstance($event)">
 			  	
 			  	<agm-marker (markerClick)="tryHaversine()" [latitude]="detail?.geometry.location.lat" [longitude]="detail?.geometry.location.lng" [draggable]="true"></agm-marker>
 			  	

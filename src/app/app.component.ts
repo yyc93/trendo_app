@@ -10,10 +10,11 @@ import { FriendList } from '../pages/friend-list/friend-list';
 import { _Notification } from '../pages/notification/notification';
 
 import { User } from '../providers/user';
+import { GlobalVars } from '../providers/global-vars';
 
 @Component({
   templateUrl: 'app.html',
-  providers:[User, StatusBar, SplashScreen]
+  providers:[User, StatusBar, SplashScreen, GlobalVars]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -24,7 +25,7 @@ export class MyApp {
   name: any;
   loggedIn:boolean = false;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public userProvider: User) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public userProvider: User, public globalVars: GlobalVars) {
     this.initializeApp();
     if(userProvider.isLoggedIn()) {
       this.name = userProvider.getCurrentUser();
@@ -35,6 +36,12 @@ export class MyApp {
 
       if (userProvider.checkMyPost() == undefined) {
         userProvider.setMyPost(false);
+      }
+
+      if(userProvider.getPointedCategory() == undefined){
+        userProvider.setPointedCategory(globalVars.pointedCategories);
+      } else {
+        globalVars.pointedCategories = userProvider.getPointedCategory();
       }
     }
     

@@ -8,13 +8,16 @@ import { SearchPlaces } from '../search-places/search-places';
 })
 export class SearchPeople {
 	id:any = this.navParams.get('id');
-  show:number = 2;
+	search:any = this.navParams.get('type');
 
   	constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   	ionViewDidLoad() {
-    	console.log(this.id);
-    	console.log('ionViewDidLoad SearchPeoplePage');
+		if( this.search == undefined ){
+			this.search = 'people';
+		}
+		console.log('ionViewDidLoad SearchPeoplePage id:', this.id, ' searchType: ', this.search);
+		
   	}
 
   	goto(num) {

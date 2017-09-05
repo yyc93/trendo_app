@@ -1,10 +1,22 @@
 <ion-header>
   <ion-navbar>
-	<ion-item>
-		<ion-input type="text" placeholder="Keyword Search"></ion-input>
+		<ion-item>
+			<ion-input type="text" placeholder="Keyword Search"></ion-input>
     </ion-item>
-  </ion-navbar>
-  <ion-toolbar>
+	</ion-navbar>
+	
+	<ion-toolbar no-border-top no-padding>
+    <ion-segment [(ngModel)]="search">
+      <ion-segment-button value="people">
+        PEOPLE
+      </ion-segment-button>
+      <ion-segment-button value="places">
+        PLACES
+      </ion-segment-button>
+    </ion-segment>
+	</ion-toolbar>
+	
+  <!-- <ion-toolbar>
       <ion-grid>
         <ion-row center>
           <ion-col width-50 (click)="show=1">
@@ -15,12 +27,13 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 
 <ion-content padding>
-	<ion-list *ngIf="show == 2">
+  <div [ngSwitch]="search">
+    <ion-list *ngSwitchCase="'places'">
 	  	<ion-item>
 	    	<ion-avatar item-start>
 	      		<img src="http://lorempixel.com/200/200/food">
@@ -42,9 +55,9 @@
 	    	<h2>Hill Station</h2>
 	    	<p>Ugh. As if.</p>
 	  	</ion-item>
-	</ion-list>
+		</ion-list>
 
-	<ion-list *ngIf="show == 1">
+    <ion-list *ngSwitchCase="'people'">
 	  	<ion-item>
 	    	<ion-avatar item-start>
 	      		<img src="http://lorempixel.com/200/200/people">
@@ -66,5 +79,6 @@
 	    	<h2>Alex</h2>
 	    	<p>Ugh. As if.</p>
 	  	</ion-item>
-	</ion-list>
+		</ion-list>
+	</div>
 </ion-content>

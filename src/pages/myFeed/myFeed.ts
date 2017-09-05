@@ -93,13 +93,30 @@ export class MyFeed {
                 }
             }
             if( !isSkip ) {
-                this.tmp[i].commentCount = this.tmp[i]._postComments.length;
-                this.data.push(this.tmp[i]);
-                if(this.j == 5) {
-                    this.businessAds(i);
-                    return;
+                let isShowable = false;
+                if( this.globalVars.pointedCategories.length == 0) {
+                    isShowable = true;
+                } else {
+                    for( let category of this.tmp[i].categories) {
+                        for( let selectedCat of this.globalVars.pointedCategories){
+                            if( selectedCat == category){
+                                isShowable = true;
+                                break;
+                            }
+                        }
+                        if( isShowable )
+                            break;
+                    }
                 }
-                this.j++;
+                if( isShowable ) {
+                    this.tmp[i].commentCount = this.tmp[i]._postComments.length;
+                    this.data.push(this.tmp[i]);
+                    if(this.j == 5) {
+                        this.businessAds(i);
+                        return;
+                    }
+                    this.j++;
+                }
             }
             this.success(i+1);
         }
@@ -176,7 +193,7 @@ export class MyFeed {
 
     gotoSearch(num) {
       if (num == 1)
-         this.navCtrl.push(SearchPeople, {id: num});
+         this.navCtrl.push(SearchPeople, {id: num, type:'places'});
     }
 
     checkIn() {

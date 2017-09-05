@@ -6,7 +6,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MediaCapture } from '@ionic-native/media-capture';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { AgmCoreModule } from '@agm/core';
+// import { AgmCoreModule } from '@agm/core';
 import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { MyApp } from './app.component';
@@ -28,12 +28,15 @@ import { FriendList } from '../pages/friend-list/friend-list';
 import { _Notification } from '../pages/notification/notification';
 import { MyCheckIns } from '../pages/my-check-ins/my-check-ins';
 import { CommentsPage } from '../pages/comments/comments';
+import { ModalAutocompleteItems } from  '../pages/modal-autocomplete/modal-autocomplete';
 
+import { EncodeURIPipe } from '../pipe/escape_pipe';
 
 import { Business } from '../providers/business';
 import { Checkin } from '../providers/checkin';
 import { LocationP } from '../providers/location';
 import { User } from '../providers/user';
+import { AgmCoreOverrideModule } from '../providers/agm-core-override';
 
 @NgModule({
   declarations: [
@@ -55,13 +58,15 @@ import { User } from '../providers/user';
     _Notification,
     MyCheckIns,
     CommentsPage,
-    TimeAgoPipe
+    TimeAgoPipe,
+    ModalAutocompleteItems,
+    EncodeURIPipe
   ],
   imports: [
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyCT9DKxctQ44z_tLouXlkWLWTXIL1s0tNI'})
+    AgmCoreOverrideModule.forRoot({})
   ],
 
   bootstrap: [IonicApp],
@@ -83,6 +88,7 @@ import { User } from '../providers/user';
     FriendList,
     _Notification,
     MyCheckIns,
+    ModalAutocompleteItems,
     CommentsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, HaversineService, LocationP, User, Checkin, Business, Camera, MediaCapture,Geolocation]

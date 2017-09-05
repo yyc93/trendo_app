@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { HaversineService, GeoCoord } from "ng2-haversine";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MyFeed } from '../myFeed/myFeed';
@@ -12,6 +12,10 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture';
 
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+
+import { ModalAutocompleteItems } from '../modal-autocomplete/modal-autocomplete';
+
+declare var google:any;
 
 enum PostStyle {
     PS_TEXT = 0,
@@ -34,7 +38,10 @@ export class CheckIn {
     uploadFileCount : number;
     finishedCount : number;
     isErroruploading : boolean;
-    checkinData : any;
+    checkinData : any;    
+    
+    private _map: any;
+    public locatePos: any = {lat:'', lng:''};
 
     public postStyle: PostStyle;
     public base64Image: string;
@@ -48,6 +55,7 @@ export class CheckIn {
     constructor(public navCtrl: NavController
         , public navParams: NavParams
         , public _haversineService: HaversineService
+        , public modalCtrl: ModalController
         , public alertCtrl: AlertController
         , public locationService: LocationP
         , public loadingCtrl: LoadingController
@@ -74,13 +82,15 @@ export class CheckIn {
             let lng = resp.coords.longitude;
             console.log("locataion Info (lat, lng)=(" + lat + "," + lng + ")");
             if( lng>110 && lng<130){
-                lat = 36.128167;    //TODO: remove this code. 
-                lng = -115.160445;
+                lat = 36.124861;    //TODO: remove this code.
+                lng = -115.168773;
             }
+            this.locatePos.lat = lat;
+            this.locatePos.lng = lng;
             this.locationService.getNearByPlaces(lat, lng).subscribe(
                 response => {
                     this.loader.dismiss();
-                    console.log(response.results)
+                    console.log(response.results);
                     this.data = response.results;
                     this.radioAlertFunc();
                 },
@@ -143,16 +153,26 @@ export class CheckIn {
                 this.locationService.getPlaceDetails(data).subscribe(
                     response => {
                         this.detail = response.result;
+                        if( this.detail ) {
+                            this.locatePos.lat = this.detail.geometry.location.lat;
+                            this.locatePos.lng = this.detail.geometry.location.lng;
+                        }
                         console.log(this.detail)
                     },
                     error => console.log(error)
                 );
             }
         });
+        // radioAlert.addButton({
+        //     text: 'Refresh',
+        //     handler: data => {
+        //         this.ionViewDidLoad();
+        //     }
+        // });
         radioAlert.addButton({
-            text: 'Refresh',
+            text: 'Type Your Location',
             handler: data => {
-                this.ionViewDidLoad();
+                this.showTypeModal();
             }
         });
         radioAlert.addButton({
@@ -161,7 +181,7 @@ export class CheckIn {
                 this.navCtrl.setRoot(MyFeed);
             }
         });
-        this.loader.dismiss();
+        
         radioAlert.present();
     }
 
@@ -229,12 +249,22 @@ export class CheckIn {
             content: 'Posting your checkin...'
         });
         this.loader.present();
+        let categories = [];
+        for( let i=0; i<this.detail.types.length; i++){
+            for( let j=0; j<this.globalVars.categories.length; j++){
+                if( this.detail.types[i] == this.globalVars.categories[j]){
+                    categories.push(this.detail.types[i])
+                    break;
+                }
+            }
+        }
         this.checkinData = {
             'user_id': JSON.parse(localStorage.getItem('user'))._id,
             'name': this.detail.name,
             'address': this.detail.formatted_address,
             'latitude': this.detail.geometry.location.lat,
             'longitude': this.detail.geometry.location.lng,
+            'categories': categories,
             'comment': comment,
             'checkinType': checkinType
         };
@@ -384,5 +414,78 @@ export class CheckIn {
             buttons: ['OK']
         });
         alert.present();
+    }
+
+    private tryHaversine() {
+        console.log("Tapped Marker");
+    }
+
+    showTypeModal() {
+
+        // show modal|
+        let self = this;
+        let modal = this.modalCtrl.create(ModalAutocompleteItems);
+        modal.onDidDismiss(data => {
+            console.log('page > modal dismissed > data > ', data);            
+            this.loader = this.loadingCtrl.create({
+                'spinner': 'dots',
+                'content': 'Loading Nearby Locations...'
+            });
+            this.loader.present();
+
+            if(data){
+                // get details
+                self.locationService.getPlaceDetails(data.place_id).subscribe(
+                    response => {
+                        console.log('getPlaceDetails > detail >', response.result)
+                        let lat = response.result.geometry.location.lat;
+                        let lng = response.result.geometry.location.lng;
+                        self.locationService.getNearByPlaces(lat, lng).subscribe(
+                            response => {
+                                self.loader.dismiss();
+                                console.log(response.results);
+                                self.data = response.results;
+                                self.radioAlertFunc();
+                            },
+                            error => {
+                                self.loader.dismiss();
+                                console.log(error)
+                            });
+                    },
+                    error => {
+                        self.loader.dismiss();
+                        console.log(error)
+                    }
+                );
+            } else {
+                this.locationService.getNearByPlaces(this.locatePos.lat, this.locatePos.lng).subscribe(
+                    response => {
+                        this.loader.dismiss();
+                        console.log(response.results);
+                        this.data = response.results;
+                        this.radioAlertFunc();
+                    },
+                    error => {
+                        this.loader.dismiss();
+                        console.log(error)
+                    }
+                );
+            }
+        })
+        modal.present();
+    }
+
+    // private createMapMarker(place:any):void {
+    //     var placeLoc = place.geometry.location;
+    //     var marker = new google.maps.Marker({
+    //       map: this._map,
+    //       position: placeLoc
+    //     });    
+    //     this.markers.push(marker);
+    // }
+
+    private initMapInstance(map) {
+        console.log("initMapInstance()");
+        this._map = map;
     }
 }

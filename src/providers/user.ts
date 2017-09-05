@@ -99,4 +99,21 @@ export class User {
     JSON.stringify(localStorage.setItem('notifications', value))
   }
 
+  getPointedCategory(): Object{
+    let result = [];
+    try {
+      result = JSON.parse(localStorage.getItem('PointedCategory'));
+    } catch(err) {
+      console.error("getPointedCategory error: ", err.message);
+      result = [];
+      this.setPointedCategory(result);
+    }
+
+    return result;
+  }
+
+  setPointedCategory(value) {
+    localStorage.setItem('PointedCategory', JSON.stringify(value));
+  }
+
 }

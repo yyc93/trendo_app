@@ -137,8 +137,8 @@ export class Fans {
 	}
 
 	gotoSearch(num) {
-  	if (num == 1)
- 		this.navCtrl.push(SearchPeople, {id: num});
+		if (num == 1)
+			this.navCtrl.push(SearchPeople, {id: num, type:'people'});
 	}
 
 	checkIn() {

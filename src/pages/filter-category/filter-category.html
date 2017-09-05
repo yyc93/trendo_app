@@ -1,13 +1,13 @@
 <ion-header>
 	<ion-navbar hideBackButton>
 	<ion-buttons style="float:left;">
-      <button ion-button (click)="close()">
+      <button ion-button (click)="close(0)">
         <ion-icon name="close"></ion-icon>
       </button>
      </ion-buttons>
      <ion-title>Feed Filters</ion-title>
 	<ion-buttons end>
-      <button ion-button (click)="close()">
+      <button ion-button (click)="close(1)">
         <ion-icon name="checkmark"></ion-icon>
       </button>
      </ion-buttons>
@@ -15,11 +15,9 @@
   	<!-- SUB HEADER -->
 	<ion-toolbar>
 	      <ion-grid>
-	        <ion-row center>
+	        <ion-row justify-content-center align-items-center>	          
+	    			<ion-checkbox [(ngModel)]="checkedAll" (click)="selectAllCategory()"></ion-checkbox>
 	          <ion-col width-50 (click)="show=1;">
-	            <div align="center">LOCATION</div>
-	          </ion-col>
-	          <ion-col width-50 (click)="show=2;">
 	            <div align="center">CATEGORY</div>
 	          </ion-col>
 	        </ion-row>
@@ -30,66 +28,10 @@
 
 <ion-content>
 	<ion-list *ngIf="show == 1">
-	  	<ion-item>
-	    	<ion-label>Nightlife (Clubs and bars)</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Restaurants</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Coffee and hookah lounge</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Sporting Events</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Outdoor Activities</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Miscellaneous</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-	</ion-list>
-
-	<ion-list *ngIf="show == 2">
-		<ion-item>
-	    	<ion-label>Nightlife (Clubs and bars)</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Restaurants</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Coffee and hookah lounge</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Sporting Events</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Outdoor Activities</ion-label>
-	    	<ion-checkbox></ion-checkbox >
-	  	</ion-item>
-
-	  	<ion-item>
-	    	<ion-label>Miscellaneous</ion-label>
-	    	<ion-checkbox></ion-checkbox >
+		
+	  	<ion-item *ngFor="let category of categories">
+	    	<ion-label>{{category.name}}</ion-label>
+	    	<ion-checkbox [(ngModel)]="category.checked" (ionChange)="addToCategoryList(category)"></ion-checkbox>
 	  	</ion-item>
 	</ion-list>
 

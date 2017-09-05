@@ -1,4 +1,7 @@
-// page-search-people {
+page-search-people {
+    ion-header ion-toolbar{
+        min-height: 42px !important;
+    }
 // 	.subheader {
 // 		height: 100%;
 // 	    width: 100%;
@@ -20,4 +23,4 @@
 // 	    border-bottom: groove 2px;
 //     	border-bottom-color: bisque;
 // 	}
-// }
+}

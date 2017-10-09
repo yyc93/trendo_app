@@ -47,4 +47,23 @@ page-check-in {
 	    color: #ffffff;
 	    // background-color: #a5a5a5;
 	}
+
+	// Height Animation
+	.transformable {
+		-webkit-transition: height 100ms linear;
+		-moz-transition: height 100ms linear;
+		-o-transition: height 100ms linear;
+		-ms-transition: height 100ms linear;
+		transition: height 100ms linear;
+	}
+
+	.small {
+		height:100px;
+	}
+
+	.big {
+		height:300px;
+	}
+
+	// <div class="transformable" ng-class="{'small':isSmall, 'big':!isSmall}" ng-click="isSmall = !isSmall"> </div>
 }

@@ -40,6 +40,8 @@
     </ion-grid>
   </ion-toolbar>
 
+  <!-- <a >{{address}}</a> -->
+  <!-- <a >{{address | encodeURI}}</a> --> 
   <ion-card *ngFor="let data of data">
     <div *ngIf="data.type == 'user'">
       <ion-item (click)="gotoDetails(data._businessId)">

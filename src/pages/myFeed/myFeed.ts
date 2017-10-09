@@ -16,6 +16,8 @@ import { Business } from '../../providers/business';
 import { User } from '../../providers/user';
 import { GlobalVars } from '../../providers/global-vars';
 
+import { EncodeURIPipe } from '../../pipe/escape_pipe';
+
 @Component({
   selector: 'page-myFeed',
   templateUrl: 'myFeed.html',
@@ -42,9 +44,9 @@ export class MyFeed {
         , public globalVars : GlobalVars ) {}
 
     ionViewDidLoad(){
+        // this.address = new EncodeURIPipe().transform("asdf asdf & asdf|");
         // console.log(this.dateTime.getDate()+"/"+this.dateTime.getDay()+"/"+this.dateTime.getFullYear());
         // console.log(this.dateTime.getHours()-12+":"+this.dateTime.getMinutes()+":"+this.dateTime.getSeconds());
-    
         this.loader = this.loadingCtrl.create({
             spinner:'dots',
             content:'Loading Checkins...'
